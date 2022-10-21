@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    password: 'habsat'
+    username: 'habsat'
+    url: 'jdbc:postgresql://146.59.17.124:5432/db'
+  jpa:
+    hibernate:
+      ddl-auto: update
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+server:
+  error:
+    include-message: always
