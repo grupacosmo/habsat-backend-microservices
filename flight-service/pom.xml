@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.edu.pk.cosmo.habsatbackend</groupId>
-    <artifactId>habsat_backend</artifactId>
+    <artifactId>flight-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>habsat_backend</name>
-    <description>habsat_backend</description>
+    <name>flight-service</name>
+    <description>flight-service</description>
     <properties>
         <java.version>11</java.version>
     </properties>
