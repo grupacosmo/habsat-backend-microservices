@@ -9,10 +9,10 @@
 		<relativePath/>
 	</parent>
 	<groupId>pl.edu.pk.cosmo.habsatbackend</groupId>
-	<artifactId>posts-service</artifactId>
+	<artifactId>post-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>posts-service</name>
-	<description>posts-service</description>
+	<name>post-service</name>
+	<description>post-service</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -78,12 +78,54 @@
 			<artifactId>spring-cloud-starter-aws</artifactId>
 			<version>2.2.6.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry-spring-boot-starter</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry-logback</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-db</artifactId>
+			<version>2.0.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.6</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

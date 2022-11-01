@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class MediaResource {
     private Long id;
-    private String s3Url;
+    private String url;
     private String nameOfFile;
     private String typeOfFile;
     private Long sizeOfFile;
