@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: 'gateway'
   cloud:
     gateway:
       routes:
@@ -6,6 +8,10 @@ spring:
           uri: lb://email-service
           predicates:
             - Path= /email-service/**
+        - id: post-service
+          uri: lb://post-service
+          predicates:
+            - Path= /posts/**, /media/**
       discovery:
         locator:
           enabled: true
@@ -14,3 +20,7 @@ management:
     web:
       exposure:
         include: "*"
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL}

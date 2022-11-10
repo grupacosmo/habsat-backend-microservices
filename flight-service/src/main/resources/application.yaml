@@ -12,3 +12,7 @@ spring:
 server:
   error:
     include-message: always
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL}

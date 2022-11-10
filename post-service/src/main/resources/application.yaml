@@ -17,9 +17,7 @@ spring:
     restart:
       enabled: true
 server:
-  port: 6789
-  servlet:
-    context-path: '/post-service'
+  port: 8080
   error:
     include-message: always
 springfox:
@@ -50,3 +48,11 @@ sentry:
     minimum-event-level: warn
     minimum-breadcrumb-level: debug
   release: ${SENTRY_RELEASE}
+logging:
+  level:
+    com.amazonaws.util.EC2MetadataUtils: error
+    com.amazonaws.internal.InstanceMetadataServiceResourceFetcher: error
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL}
