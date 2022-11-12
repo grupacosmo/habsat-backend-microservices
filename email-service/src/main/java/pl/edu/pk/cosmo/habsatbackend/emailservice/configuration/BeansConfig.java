@@ -1,25 +1,14 @@
-package pl.edu.pk.cosmo.habsatbackend.userservice.configuration;
+package pl.edu.pk.cosmo.habsatbackend.emailservice.configuration;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Random;
 
 @Configuration
 class BeansConfig {
-
-    @Bean
-    BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    Random random() {
-        return new Random();
-    }
 
     @Bean
     @LoadBalanced

@@ -12,9 +12,13 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  devtools:
+    livereload:
+      enabled: true
 server:
   error:
     include-message: always
+    include-stacktrace: never
   port: 8050
   servlet:
     context-path: '/user-service'

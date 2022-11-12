@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import pl.edu.pk.cosmo.habsatbackend.userservice.utils.validators.annotations.Email;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email
     @Column(unique = true)
     private String email;
     private String name;
