@@ -4,19 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import pl.edu.pk.cosmo.habsatbackend.userservice.utils.validators.annotations.Email;
 
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
-public class ChangeRoleRequest {
-    @NotBlank
-    @Email
+public class AddRolesRequest {
     private String email;
-
-    @NotBlank
-    private String role;
+    private List<String> roles;
 }
