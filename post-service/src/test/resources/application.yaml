@@ -2,30 +2,22 @@ spring:
   application:
     name: 'post-service'
   config:
-    import: optional:file:.env[.properties]
+    import: optional:file:.env.test[.properties]
   datasource:
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     url: ${POSTGRES_DSN}
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-  devtools:
-    restart:
-      enabled: true
 server:
-  port: 6789
-  servlet:
-    context-path: '/post-service'
-  error:
-    include-message: always
-springfox:
-  documentation:
-    swagger-ui:
-      enabled: true
+  port: 8080
+logging:
+  level:
+    root: error
 cloud:
   aws:
     credentials:
@@ -40,13 +32,9 @@ cloud:
       auto: false
     endpoint-url: ${AWS_ENDPOINT_URL}
     s3-bucket: ${AWS_BUCKET_NAME}
-sentry:
-  dsn: ${SENTRY_DSN}
-  environment: ${SENTRY_ENV}
-  sample-rate: ${SENTRY_SAMPLE_RATE}
-  traces-sample-rate: ${SENTRY_TRACE_RATE}
-  logging:
-    enabled: true
-    minimum-event-level: warn
-    minimum-breadcrumb-level: debug
-  release: ${SENTRY_RELEASE}
+eureka:
+  client:
+    enabled: false
+springfox:
+  documentation:
+    enabled: false

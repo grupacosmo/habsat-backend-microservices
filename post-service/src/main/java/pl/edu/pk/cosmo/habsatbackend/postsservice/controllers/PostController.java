@@ -1,5 +1,6 @@
 package pl.edu.pk.cosmo.habsatbackend.postsservice.controllers;
 
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,12 @@ import pl.edu.pk.cosmo.habsatbackend.postsservice.services.PostService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/posts")
 @RequiredArgsConstructor
+@SentrySpan
 public class PostController {
     private final PostService postService;
     private final PostResourceConverter postResourceConverter;
@@ -25,7 +28,7 @@ public class PostController {
     @GetMapping
     public ResponseEntity<?> findAllPosts() {
         List<PostEntity> posts = postService.findAllPosts();
-        return new ResponseEntity<>(posts.stream().map(postResourceConverter::of), HttpStatus.OK);
+        return new ResponseEntity<>(posts.stream().map(postResourceConverter::of).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -35,7 +38,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(@Valid @RequestBody ModifyPostRequest modifyPostRequest) throws PostSlugIsNotUnique, MediaNotFoundException {
+    public ResponseEntity<?> createPost(@Valid @RequestBody ModifyPostRequest modifyPostRequest) throws MediaNotFoundException, PostSlugIsNotUnique {
         PostEntity post = postService.createPost(modifyPostRequest);
         return new ResponseEntity<>(postResourceConverter.of(post), HttpStatus.CREATED);
     }

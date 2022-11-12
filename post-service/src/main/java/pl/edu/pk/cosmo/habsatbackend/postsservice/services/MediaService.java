@@ -1,5 +1,6 @@
 package pl.edu.pk.cosmo.habsatbackend.postsservice.services;
 
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@SentrySpan
 public class MediaService {
     private final S3Service s3Service;
     private final MediaRepository mediaRepository;

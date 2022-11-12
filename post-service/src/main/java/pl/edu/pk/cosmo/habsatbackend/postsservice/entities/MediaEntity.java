@@ -16,26 +16,22 @@ import java.util.Date;
 @Table(name = "media", schema = "public")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class MediaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
-    @Getter
     @Setter
     @Column(name = "s3_key")
     private String s3Key;
 
-    @Getter
     @Setter
     private String nameOfFile;
 
-    @Getter
     @Setter
     private String typeOfFile;
 
-    @Getter
     @Setter
     private Long sizeOfFile;
 

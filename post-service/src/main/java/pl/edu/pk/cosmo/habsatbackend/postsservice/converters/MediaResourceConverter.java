@@ -14,7 +14,7 @@ public class MediaResourceConverter {
     public MediaResource of(MediaEntity media) {
         return new MediaResource()
                 .setId(media.getId())
-                .setS3Url(s3Service.generateUrl(media.getS3Key()).toString())
+                .setUrl(s3Service.generateUrl(media.getS3Key()).toString())
                 .setNameOfFile(media.getNameOfFile())
                 .setTypeOfFile(media.getTypeOfFile())
                 .setSizeOfFile(media.getSizeOfFile());

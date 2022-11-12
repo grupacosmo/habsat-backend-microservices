@@ -1,5 +1,6 @@
 package pl.edu.pk.cosmo.habsatbackend.postsservice.services;
 
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@SentrySpan
 public class PostService {
 
     private final PostRepository postRepository;
@@ -33,33 +35,33 @@ public class PostService {
 
     @Transactional
     public PostEntity createPost(ModifyPostRequest modifyPostRequest) throws PostSlugIsNotUnique, MediaNotFoundException {
-        if (postRepository.existsBySlug(modifyPostRequest.getSlug())) {
-            throw new PostSlugIsNotUnique();
-        }
-
-        Long thumbnailId = modifyPostRequest.getThumbnailId();
-        if (thumbnailId != null && !mediaRepository.existsById(thumbnailId)) {
-            throw new MediaNotFoundException();
-        }
+        throwIfSlugIsNotUnique(modifyPostRequest.getSlug());
+        throwIfThumbnailNotExists(modifyPostRequest.getThumbnailId());
 
         PostEntity post = postEntityConverter.of(modifyPostRequest, "email_of_author@from_authorization.claims");
         return postRepository.save(post);
     }
 
+    private void throwIfSlugIsNotUnique(String slug) throws PostSlugIsNotUnique {
+        if (postRepository.existsBySlug(slug)) throw new PostSlugIsNotUnique();
+    }
+
     @Transactional
     public PostEntity updatePost(Long id, ModifyPostRequest modifyPostRequest) throws PostSlugIsNotUnique, PostNotFoundException, MediaNotFoundException {
-        if (postRepository.existsBySlugAndIdNot(modifyPostRequest.getSlug(), id)) {
-            throw new PostSlugIsNotUnique();
-        }
-
-        Long thumbnailId = modifyPostRequest.getThumbnailId();
-        if (thumbnailId != null && !mediaRepository.existsById(thumbnailId)) {
-            throw new MediaNotFoundException();
-        }
+        throwIfSlugIsNotUnique(modifyPostRequest.getSlug(), id);
+        throwIfThumbnailNotExists(modifyPostRequest.getThumbnailId());
 
         PostEntity currentPost = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
         PostEntity updatedPost = postEntityConverter.of(modifyPostRequest, currentPost);
         return postRepository.save(updatedPost);
+    }
+
+    private void throwIfSlugIsNotUnique(String slug, Long id) throws PostSlugIsNotUnique {
+        if (postRepository.existsBySlugAndIdNot(slug, id)) throw new PostSlugIsNotUnique();
+    }
+
+    private void throwIfThumbnailNotExists(Long thumbnailId) throws MediaNotFoundException {
+        if (thumbnailId != null && !mediaRepository.existsById(thumbnailId)) throw new MediaNotFoundException();
     }
 
     @Transactional

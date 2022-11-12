@@ -1,5 +1,6 @@
 package pl.edu.pk.cosmo.habsatbackend.postsservice.controllers;
 
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,10 +13,12 @@ import pl.edu.pk.cosmo.habsatbackend.postsservice.exceptions.MediaNotFoundExcept
 import pl.edu.pk.cosmo.habsatbackend.postsservice.services.MediaService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/media")
 @RequiredArgsConstructor
+@SentrySpan
 public class MediaController {
     private final MediaService mediaService;
     private final MediaResourceConverter mediaResourceConverter;
@@ -23,7 +26,7 @@ public class MediaController {
     @GetMapping
     public ResponseEntity<?> findAllMedia() {
         List<MediaEntity> media = mediaService.findAllMedia();
-        return new ResponseEntity<>(media.stream().map(mediaResourceConverter::of), HttpStatus.OK);
+        return new ResponseEntity<>(media.stream().map(mediaResourceConverter::of).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
