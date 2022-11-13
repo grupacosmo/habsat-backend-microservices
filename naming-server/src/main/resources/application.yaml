@@ -1,9 +1,12 @@
 spring:
-  name: netflix-eureka-naming-server
+  application:
+    name: netflix-eureka-naming-server
 server:
   port: 8761
 eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+
+
 

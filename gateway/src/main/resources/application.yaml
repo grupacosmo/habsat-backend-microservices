@@ -6,9 +6,34 @@ spring:
           uri: lb://email-service
           predicates:
             - Path= /email-service/**
+
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path= /user-service/**
+
+        - id: post-service
+          uri: lb://post-service
+          predicates:
+            - Path= /post-service/**
+
+        - id: flight-service
+          uri: lb://flight-service
+          predicates:
+            - Path= /flight-service/**
+
+        - id: email-service
+          uri: lb://email-service
+          predicates:
+            - Path= /gateway-service/**
+
       discovery:
         locator:
           enabled: true
+  config:
+    import: 'configserver:http://localhost:8061'
+  application:
+    name: 'gateway'
 management:
   endpoints:
     web:
