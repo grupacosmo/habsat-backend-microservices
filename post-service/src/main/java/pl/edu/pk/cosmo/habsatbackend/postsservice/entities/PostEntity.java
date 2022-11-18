@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Accessors(chain = true)
 @Entity
-@Table(name = "posts", schema = "public")
+@Table(name = "posts")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

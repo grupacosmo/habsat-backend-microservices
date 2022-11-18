@@ -1,4 +1,6 @@
-create table media (
+create schema posts;
+
+create table posts.media (
     id               bigserial primary key not null,
     s3_key           varchar(256) not null,
     name_of_file     varchar(256) not null,
@@ -8,9 +10,9 @@ create table media (
     updated_at       timestamp
 );
 
-create table posts (
+create table posts.posts (
     id               bigserial primary key not null,
-    thumbnail_id     bigint constraint fk_thumbnail references media(id),
+    thumbnail_id     bigint constraint fk_thumbnail references posts.media(id),
     title            varchar(256) not null,
     slug             varchar(256) not null unique,
     content          text not null,
@@ -19,3 +21,7 @@ create table posts (
     created_at       timestamp not null,
     updated_at       timestamp
 );
+
+create schema flights;
+create schema users;
+create schema emails;

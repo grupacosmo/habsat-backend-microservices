@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  naming-server:
+    image: cosmopk/habsat-naming-server:v0.0.1
+    container_name: naming-server
+    restart: unless-stopped
+    ports:
+      - '8761:8761'
+    networks:
+      - habsat_network
+
+  gateway:
+    image: cosmopk/habsat-gateway:v0.0.1
+    container_name: gateway
+    restart: unless-stopped
+    environment:
+      EUREKA_SERVICE_URL: ${EUREKA_SERVICE_URL}
+    ports:
+      - '443:8080'
+    depends_on:
+      - naming-server
+    networks:
+      - habsat_network
+
+  authorization-server:
+    image: cosmopk/habsat-authorization-server:v0.0.1
+    container_name: authorization-server
+    restart: unless-stopped
+    environment:
+      EUREKA_SERVICE_URL: ${EUREKA_SERVICE_URL}
+    depends_on:
+      - gateway
+    networks:
+      - habsat_network
+
+  email-service:
+    image: cosmopk/habsat-email-service:v0.0.1
+    container_name: email-service
+    restart: unless-stopped
+    environment:
+      EUREKA_SERVICE_URL: ${EUREKA_SERVICE_URL}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DSN: ${POSTGRES_EMAILS_DSN}
+    depends_on:
+      - gateway
+    networks:
+      - habsat_network
+
+  post-service:
+    image: cosmopk/habsat-post-service:v0.0.1
+    container_name: post-service
+    restart: unless-stopped
+    environment:
+      EUREKA_SERVICE_URL: ${EUREKA_SERVICE_URL}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DSN: ${POSTGRES_POSTS_DSN}
+      AWS_ENDPOINT_URL: ${AWS_ENDPOINT_URL}
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
+      SENTRY_DSN: ${SENTRY_DSN}
+      SENTRY_ENV: ${SENTRY_ENV}
+      SENTRY_RELEASE: ${SENTRY_RELEASE}
+      SENTRY_SAMPLE_RATE: ${SENTRY_SAMPLE_RATE}
+      SENTRY_TRACE_RATE: ${SENTRY_TRACE_RATE}
+    depends_on:
+      - gateway
+    networks:
+      - habsat_network
+
+  user-service:
+    image: cosmopk/habsat-user-service:v0.0.1
+    container_name: user-service
+    restart: unless-stopped
+    environment:
+      EUREKA_SERVICE_URL: ${EUREKA_SERVICE_URL}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DSN: ${POSTGRES_USERS_DSN}
+    depends_on:
+      - gateway
+    networks:
+      - habsat_network
+
+networks:
+  habsat_network: null
+
