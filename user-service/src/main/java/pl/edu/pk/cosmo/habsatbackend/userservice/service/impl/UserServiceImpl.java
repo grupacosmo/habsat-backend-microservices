@@ -8,8 +8,10 @@ import pl.edu.pk.cosmo.habsatbackend.userservice.entity.Mail;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.User;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.request.AddUserRequest;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.request.ChangePasswdRequest;
+import pl.edu.pk.cosmo.habsatbackend.userservice.entity.request.Credentials;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.response.UserResponse;
 import pl.edu.pk.cosmo.habsatbackend.userservice.exception.EmailTakenException;
+import pl.edu.pk.cosmo.habsatbackend.userservice.exception.InvalidCredentialsException;
 import pl.edu.pk.cosmo.habsatbackend.userservice.exception.NoUserException;
 import pl.edu.pk.cosmo.habsatbackend.userservice.exception.PasswordMismatchException;
 import pl.edu.pk.cosmo.habsatbackend.userservice.repository.UserRepository;
@@ -73,10 +75,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-
-
-
-
     @Override
     public UserResponse getUserByEmail(String email) throws NoUserException {
         return userRepository.findByEmail(email)
@@ -94,7 +92,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(()-> new NoUserException("There is no such user with " + email + " email"));
     }
 
-
     @Override
     public List<UserResponse> getUsersByRole(String role) {
         return userRepository.findAll()
@@ -103,4 +100,16 @@ public class UserServiceImpl implements UserService {
                 .map(userConverter::toResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void validateCredentials(Credentials credentials) throws InvalidCredentialsException {
+        userRepository.findByEmail(credentials.getEmail())
+                .map(user -> user.getPassword().equals(credentials.getPassword()))
+                .stream()
+                .filter(bool -> bool.equals(true))
+                .findAny()
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials!"));
+    }
+
+
 }
