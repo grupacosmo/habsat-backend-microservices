@@ -1,5 +1,7 @@
 package pl.edu.pk.cosmo.habsatbackend.authorizationserver.service.impl;
 
+import pl.edu.pk.cosmo.habsatbackend.authorizationserver.entity.response.ValidatedSessionResponse;
+import pl.edu.pk.cosmo.habsatbackend.authorizationserver.exception.InvalidSessionID;
 import pl.edu.pk.cosmo.habsatbackend.authorizationserver.repository.SessionRepository;
 import pl.edu.pk.cosmo.habsatbackend.authorizationserver.converter.SessionConverter;
 import pl.edu.pk.cosmo.habsatbackend.authorizationserver.entity.SessionEntity;
@@ -38,6 +40,16 @@ public class SessionServiceImpl implements SessionService {
 
         sessionRepository.save(sessionEntity);
         return sessionConverter.sessionResponseOf(sessionEntity);
+    }
+
+    @Override
+    public ValidatedSessionResponse validateSession(String sessionID) throws InvalidSessionID {
+        final SessionEntity sessionEntity = sessionRepository.findById(sessionID)
+                .orElseThrow(()-> new InvalidSessionID("There is no active session with given id"));
+
+        // TODO add date and mac / IP validation
+
+        return sessionConverter.validatedSessionResponseOf(sessionEntity);
     }
 
     private String generateSessionId() {

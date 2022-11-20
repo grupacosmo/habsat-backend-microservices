@@ -6,9 +6,15 @@ spring:
           uri: lb://email-service
           predicates:
             - Path= /email-service/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path= /user-service/**
       discovery:
         locator:
           enabled: true
+  main:
+    allow-bean-definition-overriding: true
 management:
   endpoints:
     web:
