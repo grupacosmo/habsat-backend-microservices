@@ -9,20 +9,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pk.cosmo.habsatbackend.authorizationserver.exception.InvalidCredentialsException;
-import pl.edu.pk.cosmo.habsatbackend.authorizationserver.service.SessionService;
+import pl.edu.pk.cosmo.habsatbackend.authorizationserver.service.impl.SessionServiceImpl;
 
 import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
 public class SessionController {
-    private final SessionService sessionService;
+    private final SessionServiceImpl sessionService;
 
-    @PostMapping("/create")
+    @PostMapping("/login")
     public SessionResponse createSession(@RequestBody @Valid RequestSessionCreate requestSessionCreate) {
         try {
-            sessionService.createSession(requestSessionCreate);
-            return null;
+            return sessionService.createSession(requestSessionCreate);
         } catch (InvalidCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }

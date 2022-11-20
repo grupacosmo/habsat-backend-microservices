@@ -103,12 +103,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void validateCredentials(Credentials credentials) throws InvalidCredentialsException {
-        userRepository.findByEmail(credentials.getEmail())
-                .map(user -> user.getPassword().equals(credentials.getPassword()))
-                .stream()
-                .filter(bool -> bool.equals(true))
-                .findAny()
+        final User user = userRepository.findByEmail(credentials.getEmail())
                 .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials!"));
+
+        if(!bCryptPasswordEncoder.matches(credentials.getPassword(), user.getPassword()))
+            throw new InvalidCredentialsException("Invalid credentials!");
     }
 
 

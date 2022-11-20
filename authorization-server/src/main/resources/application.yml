@@ -1,6 +1,11 @@
 spring:
   application:
     name: 'authorization-server'
+  data:
+    mongodb:
+      host: 'localhost'
+      port: 27017
+      database: 'session'
 server:
   port: 1234
   servlet:
