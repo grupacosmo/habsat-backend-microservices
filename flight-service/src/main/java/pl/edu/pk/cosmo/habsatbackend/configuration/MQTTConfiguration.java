@@ -38,9 +38,14 @@ public class MQTTConfiguration {
 
         MqttConnectOptions options = new MqttConnectOptions();
         options.setServerURIs(new String[] {"tcp://eu1.cloud.thethings.network:1883"});
-        options.setUserName("lora-e5-v2@ttn");
+//        options.setUserName("lora-e5-v2@ttn");
+//        options.setCleanSession(true);
+//        options.setPassword("NNSXS.LDZSHSDYFMS4DDLOS7O2FGW7SMLRH6JR7KZRQOY.XEL2KADMTDK5RORHURE7MFNUK5DUBIV6KMQ3W2WR7SZN2R364PAA".toCharArray());
+//        factory.setConnectionOptions(options);
+
+        options.setUserName("lora-e5-mini-cosmo@ttn");
         options.setCleanSession(true);
-        options.setPassword("NNSXS.G7OGWFKZ6FZKFZLAQHK5QMADLIS3HVT5DTL7FDA.U54MKSS5HNEDOFZS24PJASKT6ACTKPABP43LE3OLA26GQW4YLIWQ".toCharArray());
+        options.setPassword("NNSXS.SV47UAWSYTQSZWD3VNZB4QY7XO7KWWD6KDEW53Q.S6D23USGQSJRGWHCDEAUTNYRUSGZHZAIQVAQ7QSQQBK2LBDUFVOA".toCharArray());
         factory.setConnectionOptions(options);
 
         return factory;
@@ -60,7 +65,7 @@ public class MQTTConfiguration {
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter("serverIn", mqttPahoClientFactory(),
-                        "v3/lora-e5-v2@ttn/devices/eui-2cf7f1203230918a/up");
+                        "v3/lora-e5-mini-cosmo@ttn/devices/eui-2cf7f1203230810c/up");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(2);
@@ -79,18 +84,12 @@ public class MQTTConfiguration {
             public void handleMessage(Message<?> message) throws MessagingException {
                 String mess = message.getPayload().toString();
                 ArrayList<String> arr = new ArrayList<>(List.of(mess.split("\"time\":\"")));
-                //String time = arr.get(1).split("\"");
                 ArrayList<String> rssiArr = new ArrayList<>(List.of(mess.split("\"rssi\":")));
                 String rssi = rssiArr.get(1).split(",")[0];
                 ArrayList<String> dataArr = new ArrayList<>(List.of(mess.split("\"text\":\"")));
                 String data = dataArr.get(1).split("\"")[0];
                 ArrayList<String> mainData = new ArrayList<>(List.of(data.split(";")));
 
-                /*
-                "time":"2022-04-03T12:34:16.373069Z"
-                "rssi":-51
-                "decoded_payload":{"text":"209.85;50.08;20.03;1.22;18.10"}
-                 */
                 final FlightData flightDataToDb = new FlightData();
                 flightDataToDb.setAltitude(Double.valueOf(mainData.get(0).substring(0)));
                 flightDataToDb.setLatitude(Double.valueOf(mainData.get(1)));
@@ -99,6 +98,7 @@ public class MQTTConfiguration {
                 flightDataToDb.setTemperature(Double.valueOf(mainData.get(4)));
                 flightDataToDb.setRssi(Double.valueOf(rssi));
                 flightDataToDb.setTime(LocalDateTime.now());
+                flightDataToDb.setFlight_id(1);
 
                 System.out.println(flightDataToDb);
                 dataService.sendFrame(flightDataToDb);
@@ -112,7 +112,7 @@ public class MQTTConfiguration {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("serverOut", mqttPahoClientFactory());
 
         messageHandler.setAsync(true);
-        messageHandler.setDefaultTopic("v3/lora-e5-v2@ttn/devices/eui-2cf7f1203230918a/up"); //"v3/lora-e5-v2@ttn/devices/eui-2cf7f1203230918a/up"
+        messageHandler.setDefaultTopic("v3/lora-e5-mini-cosmo@ttn/devices/eui-2cf7f1203230810c/up");
         return messageHandler;
     }
 

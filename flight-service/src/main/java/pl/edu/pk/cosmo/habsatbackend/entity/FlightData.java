@@ -37,5 +37,6 @@ public class FlightData {
     @Column(nullable = false)
     private Double rssi;
 
-    private int flight_id;
+    @Column(nullable = true)
+    private Integer flight_id;
 }

@@ -27,14 +27,15 @@ public class DataService {
 
     @Transactional
     public void sendFrame(final FlightData flightData) {
-        jdbcTemplate.update("INSERT INTO data_test(SPEED, ALTITUDE, LONGITUDE, LATITUDE,TEMPERATURE, TIME, RSSI) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO data_test(SPEED, ALTITUDE, LONGITUDE, LATITUDE,TEMPERATURE, TIME, RSSI, FLIGHT_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 flightData.getSpeed(),
                 flightData.getAltitude(),
                 flightData.getLongitude(),
                 flightData.getLatitude(),
                 flightData.getTemperature(),
                 flightData.getTime(),
-                flightData.getRssi());
+                flightData.getRssi(),
+                flightData.getFlight_id());
         simpMessagingTemplate.convertAndSend("/data/ws", flightData);
     }
 
