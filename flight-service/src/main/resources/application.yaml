@@ -12,3 +12,4 @@ spring:
 server:
   error:
     include-message: always
+  port: 2137

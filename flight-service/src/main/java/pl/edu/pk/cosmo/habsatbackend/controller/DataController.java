@@ -57,6 +57,12 @@ public class DataController {
         }
     }
 
+    @DeleteMapping("test")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTestData() {
+        dataService.deleteTestData();
+    }
+
 //    @DeleteMapping("/~~deleteAll__webdev__access_265")
 //    public ResponseEntity<?> delete() {
 //        dataService.deleteAll();
