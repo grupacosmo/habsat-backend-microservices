@@ -3,11 +3,13 @@ package pl.edu.pk.cosmo.habsatbackend.userservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.Mail;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.request.AddUserRequest;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.request.ChangePasswdRequest;
+import pl.edu.pk.cosmo.habsatbackend.userservice.entity.request.Credentials;
 import pl.edu.pk.cosmo.habsatbackend.userservice.entity.response.UserResponse;
 import pl.edu.pk.cosmo.habsatbackend.userservice.exception.EmailTakenException;
 import pl.edu.pk.cosmo.habsatbackend.userservice.exception.NoUserException;
@@ -73,5 +75,15 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<UserResponse> getUsersByRole(@PathVariable String role) {
         return userService.getUsersByRole(role);
+    }
+
+    @PostMapping("/validate")
+    @ResponseStatus(HttpStatus.OK)
+    public void validateUserCredentials(@RequestBody Credentials credentials) {
+        try {
+            userService.validateCredentials(credentials);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,  e.getMessage());
+        }
     }
 }

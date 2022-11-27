@@ -6,7 +6,6 @@ spring:
           uri: lb://email-service
           predicates:
             - Path= /email-service/**
-
         - id: user-service
           uri: lb://user-service
           predicates:
@@ -32,8 +31,13 @@ spring:
           enabled: true
   config:
     import: 'configserver:http://localhost:8061'
+    
   application:
     name: 'gateway'
+
+  main:
+    allow-bean-definition-overriding: true
+    
 management:
   endpoints:
     web:
