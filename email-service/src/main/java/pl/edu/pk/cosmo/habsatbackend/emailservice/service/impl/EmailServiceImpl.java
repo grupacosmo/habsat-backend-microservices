@@ -2,18 +2,13 @@ package pl.edu.pk.cosmo.habsatbackend.emailservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import pl.edu.pk.cosmo.habsatbackend.emailservice.entity.ExtendedMailMessage;
 import pl.edu.pk.cosmo.habsatbackend.emailservice.entity.request.SendMailRequest;
-import pl.edu.pk.cosmo.habsatbackend.emailservice.entity.request.SendManyMailsRequest;
+import pl.edu.pk.cosmo.habsatbackend.emailservice.entity.request.SendMailsByRoleRequest;
 import pl.edu.pk.cosmo.habsatbackend.emailservice.service.EmailService;
 import pl.edu.pk.cosmo.habsatbackend.emailservice.service.UserService;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 @Component
 @RequiredArgsConstructor
@@ -29,7 +24,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendToMany(SendManyMailsRequest sendMailRequest) {
+    public void sendToMany(SendMailsByRoleRequest sendMailRequest) {
         ExtendedMailMessage message = new ExtendedMailMessage(sendMailRequest);
         emailSender.send(message);
 

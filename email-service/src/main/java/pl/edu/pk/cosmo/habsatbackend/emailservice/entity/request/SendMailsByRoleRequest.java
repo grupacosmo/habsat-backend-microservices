@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-public class SendManyMailsRequest {
+public class SendMailsByRoleRequest {
     private String person;
     private String requestedRole;
     private String subject;

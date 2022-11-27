@@ -1,11 +1,6 @@
-
 spring:
   application:
     name: 'user-service'
-  datasource:
-    password: 'habsat'
-    username: 'habsat'
-    url: 'jdbc:postgresql://146.59.17.124:5432/db'
   jpa:
     hibernate:
       ddl-auto: validate
@@ -15,6 +10,10 @@ spring:
   devtools:
     livereload:
       enabled: true
+  profiles:
+    active: 'all'
+  config:
+    import: 'configserver:http://localhost:8061'
 server:
   error:
     include-message: always

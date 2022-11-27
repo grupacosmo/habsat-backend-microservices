@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.mail.SimpleMailMessage;
 import pl.edu.pk.cosmo.habsatbackend.emailservice.entity.request.SendMailRequest;
-import pl.edu.pk.cosmo.habsatbackend.emailservice.entity.request.SendManyMailsRequest;
+import pl.edu.pk.cosmo.habsatbackend.emailservice.entity.request.SendMailsByRoleRequest;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +18,7 @@ public class ExtendedMailMessage extends SimpleMailMessage {
         setText(sendMailRequest.getText());
     }
 
-    public ExtendedMailMessage(SendManyMailsRequest sendMailRequest) {
+    public ExtendedMailMessage(SendMailsByRoleRequest sendMailRequest) {
         setFrom(sendMailRequest.getPerson());
         setTo(sendMailRequest.getPerson());
         setSubject(sendMailRequest.getSubject());
