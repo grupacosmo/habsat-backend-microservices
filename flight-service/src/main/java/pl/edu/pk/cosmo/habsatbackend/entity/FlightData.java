@@ -2,6 +2,7 @@ package pl.edu.pk.cosmo.habsatbackend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="data_test")
 @lombok.Data
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class FlightData {
