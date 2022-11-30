@@ -19,5 +19,3 @@ server:
     include-message: always
     include-stacktrace: never
   port: 8050
-  servlet:
-    context-path: '/user-service'

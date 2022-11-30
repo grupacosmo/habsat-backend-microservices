@@ -1,45 +1,36 @@
 spring:
   cloud:
     gateway:
-      routes:
-        - id: email-service
-          uri: lb://email-service
-          predicates:
-            - Path= /email-service/**
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path= /user-service/**
-
-        - id: post-service
-          uri: lb://post-service
-          predicates:
-            - Path= /post-service/**
-
-        - id: flight-service
-          uri: lb://flight-service
-          predicates:
-            - Path= /flight-service/**
-
-        - id: email-service
-          uri: lb://email-service
-          predicates:
-            - Path= /gateway-service/**
-
       discovery:
         locator:
           enabled: true
-  config:
-    import: 'configserver:http://localhost:8061'
-    
+          lower-case-service-id: true
   application:
     name: 'gateway'
-
   main:
     allow-bean-definition-overriding: true
-    
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: '*'
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    configUrl: ${server.servlet.contextPath}/v3/api-docs/swagger-config
+    url: ${server.servlet.contextPath}/v3/api-docs
+    urls:
+      - name: api-email
+        url: /user-service/v3/api-docs
+      - name: api-user
+        url: /email-service/v3/api-docs
+      - name: api-flight
+        url: /flight-service/v3/api-docs
