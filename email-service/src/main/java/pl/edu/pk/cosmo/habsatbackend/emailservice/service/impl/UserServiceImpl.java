@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsersByRole(String role) {
         return restTemplate.getForEntity(
-                "http://user-service/user-service/user/" + role + "/users"
+                "http://user-service/user/" + role + "/users"
                 , List.class
         ).getBody();
     }

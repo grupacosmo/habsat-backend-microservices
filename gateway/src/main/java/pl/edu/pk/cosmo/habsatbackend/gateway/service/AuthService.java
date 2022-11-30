@@ -63,7 +63,7 @@ public class AuthService {
         final String email = session.getEmail();
         final List<GrantedAuthority> authorities = Arrays.stream(
                 restTemplate.getForObject(
-                        "http://localhost:8050/user-service/role/" + email, String.class
+                        "http://localhost:8050/role/" + email, String.class
                 ).split(" "))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

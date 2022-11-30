@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class DataServiceImpl implements DataService{
+public class DataServiceImpl implements DataService {
     private final DataRepository dataRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final JdbcTemplate jdbcTemplate;

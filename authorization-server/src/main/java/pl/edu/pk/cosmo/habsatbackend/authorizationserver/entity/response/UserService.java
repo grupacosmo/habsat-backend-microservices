@@ -13,7 +13,7 @@ public class UserService {
 
     public HttpStatus checkUserCredentials(RequestSessionCreate requestSessionCreate) {
         return restTemplate.postForEntity(
-                "http://localhost:8050/user-service/user/validate",
+                "http://localhost:8050/user/validate",
                 requestSessionCreate,
                 Object.class).getStatusCode();
 
