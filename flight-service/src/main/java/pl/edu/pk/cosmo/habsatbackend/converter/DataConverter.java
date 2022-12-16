@@ -19,6 +19,7 @@ public class DataConverter {
                 .setAltitude(flightData.getAltitude())
                 .setLatitude(flightData.getLatitude())
                 .setLongitude(flightData.getLongitude())
+                .setTime(flightData.getTime())
                 .setSpeed(flightData.getSpeed())
                 .setTemperature(flightData.getTemperature());
     }
@@ -26,6 +27,7 @@ public class DataConverter {
     public String beufify(String message) {
         return message.replace("\"", "");
     }
+
     public FlightData dataOf(String message) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(message);

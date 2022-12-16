@@ -6,8 +6,8 @@ import pl.edu.pk.cosmo.habsatbackend.entity.Flight;
 import pl.edu.pk.cosmo.habsatbackend.entity.assets.FlightStage;
 import pl.edu.pk.cosmo.habsatbackend.entity.request.NewFlightRequest;
 import pl.edu.pk.cosmo.habsatbackend.entity.response.FlightResponse;
+import pl.edu.pk.cosmo.habsatbackend.entity.response.SimpleFlightResponse;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,6 +27,14 @@ public class FlightConverter {
                                 .collect(Collectors.toList())
                 );
 
+    }
+
+    public SimpleFlightResponse simpleResponseOf(Flight flight) {
+        return new SimpleFlightResponse()
+                .setDescription(flight.getDescription())
+                .setTitle(flight.getTitle())
+                .setDate(flight.getDate())
+                .setFlightStage(flight.getFlightStage());
     }
 
     public Flight toFlight(NewFlightRequest newFlightRequest) {

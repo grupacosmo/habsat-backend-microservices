@@ -1,13 +1,11 @@
 package pl.edu.pk.cosmo.habsatbackend.entity.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.edu.pk.cosmo.habsatbackend.entity.assets.FlightStage;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +13,7 @@ import java.util.Date;
 public class NewFlightRequest {
 
     @NotNull
-    private Date date;
+    private LocalDate date;
 
     @NotNull
     private String description;
