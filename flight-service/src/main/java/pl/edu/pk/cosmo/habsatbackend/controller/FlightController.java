@@ -14,7 +14,14 @@ import pl.edu.pk.cosmo.habsatbackend.exception.NoFlightException;
 import pl.edu.pk.cosmo.habsatbackend.service.FlightService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+
+/*
+ * Todo
+ * Add localDateTime in path
+ * Handle just date time to get response
+ */
 
 @RequestMapping("/flight")
 @RestController
@@ -30,15 +37,6 @@ public class FlightController {
 
     @GetMapping("{date}")
     public FlightResponse getFlightById(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        try {
-            return flightService.getFlightByDate(date);
-        } catch (NoFlightException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
-
-    @GetMapping("{date}/flightData")
-    public FlightResponse getFlightDataByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         try {
             return flightService.getFlightByDate(date);
         } catch (NoFlightException e) {

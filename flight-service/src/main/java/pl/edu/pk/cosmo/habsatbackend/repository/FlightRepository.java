@@ -8,14 +8,15 @@ import pl.edu.pk.cosmo.habsatbackend.entity.Flight;
 import pl.edu.pk.cosmo.habsatbackend.entity.assets.FlightStage;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
 
-    boolean existsByDate(LocalDate date);
-    Optional<Flight> findFlightByDate(LocalDate date);
+    boolean existsByDate(LocalDateTime date);
+    Optional<Flight> findFlightByDate(LocalDateTime date);
 
     @Query("SELECT f FROM Flight f WHERE f.flightStage=?1")
     List<Flight> findFlightByFlightStage(FlightStage flightStage);

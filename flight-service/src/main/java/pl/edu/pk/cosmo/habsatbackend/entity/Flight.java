@@ -8,6 +8,7 @@ import pl.edu.pk.cosmo.habsatbackend.entity.assets.FlightStage;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,7 +23,7 @@ public class Flight {
     @Column(name = "flight_id")
     private Integer flightId;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     private String description;
 

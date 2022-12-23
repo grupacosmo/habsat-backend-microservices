@@ -47,13 +47,16 @@ public class DataConverter {
         List<String> mainData = List.of(beufify(payload).split(";"));
 
         return new FlightData().setAltitude(Double.valueOf(mainData.get(0)))
-                    .setLatitude(Double.valueOf(mainData.get(1)))
-                    .setLongitude(Double.valueOf(mainData.get(2)))
-                    .setSpeed(Double.valueOf(mainData.get(3).substring(0, mainData.get(4).length()-1)))
-                    .setTemperature(Double.valueOf(mainData.get(4)))
-                    .setRssi(Double.valueOf(rssi))
-                    .setTime(LocalDateTime.now())
-                    .setFlight_id(1);
+                .setLatitude(Double.valueOf(mainData.get(1)))
+                .setLongitude(Double.valueOf(mainData.get(2)))
+                .setSpeed(Double.valueOf(mainData.get(3).substring(0, mainData.get(4).length()-1)))
+                .setTemperature(Double.valueOf(mainData.get(4)))
+                .setRssi(Double.valueOf(rssi))
+                .setTime(LocalDateTime.now())
+                .setSnr(snr)
+                .setChannelIndex(channelIndex)
+                .setConsumedAirtime(consumedAirtime)
+                .setSpreadingFactor(spreadingFactor);
 
     }
 }

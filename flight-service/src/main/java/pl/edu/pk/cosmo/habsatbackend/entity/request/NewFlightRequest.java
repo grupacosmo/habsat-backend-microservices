@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 public class NewFlightRequest {
 
     @NotNull
-    private LocalDate date;
+    private LocalDateTime date;
 
     @NotNull
     private String description;

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DataService {
     void save(final FlightData flightData);
-    void sendFrame(final FlightData flightData);
+    void handleRetrievedMessage(final FlightData flightData);
     List<FlightData> findAll();
     void deleteAll();
     void saveAll(List<FlightData> list);

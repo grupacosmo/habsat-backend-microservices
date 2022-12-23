@@ -6,10 +6,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import pl.edu.pk.cosmo.habsatbackend.entity.Flight;
 import pl.edu.pk.cosmo.habsatbackend.entity.FlightData;
+import pl.edu.pk.cosmo.habsatbackend.entity.assets.FlightStage;
 import pl.edu.pk.cosmo.habsatbackend.exception.NoDataException;
 import pl.edu.pk.cosmo.habsatbackend.repository.DataRepository;
+import pl.edu.pk.cosmo.habsatbackend.repository.FlightRepository;
 import pl.edu.pk.cosmo.habsatbackend.service.DataService;
+import pl.edu.pk.cosmo.habsatbackend.service.FlightService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DataServiceImpl implements DataService {
     private final DataRepository dataRepository;
+    private final FlightRepository flightRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final JdbcTemplate jdbcTemplate;
 
@@ -30,7 +35,11 @@ public class DataServiceImpl implements DataService {
 
     @Override
     @Transactional
-    public void sendFrame(final FlightData flightData) {
+    public void handleRetrievedMessage(final FlightData flightData) {
+       final Integer flightId = flightRepository.findOngoing()
+               .map(Flight::getFlightId)
+               .orElse(FLIGHTID_TEST_LOCATOR);
+
         jdbcTemplate.update("INSERT INTO data_test(SPEED, ALTITUDE, LONGITUDE, LATITUDE,TEMPERATURE, TIME, RSSI, FLIGHT_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 flightData.getSpeed(),
                 flightData.getAltitude(),
@@ -39,7 +48,7 @@ public class DataServiceImpl implements DataService {
                 flightData.getTemperature(),
                 flightData.getTime(),
                 flightData.getRssi(),
-                flightData.getFlight_id());
+                flightId);
         simpMessagingTemplate.convertAndSend("/data/ws", flightData);
     }
 

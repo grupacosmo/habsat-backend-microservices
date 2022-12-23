@@ -2,6 +2,7 @@ package pl.edu.pk.cosmo.habsatbackend.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +22,7 @@ import pl.edu.pk.cosmo.habsatbackend.converter.DataConverter;
 import pl.edu.pk.cosmo.habsatbackend.entity.FlightData;
 import pl.edu.pk.cosmo.habsatbackend.service.DataService;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class MQTTConfiguration {
@@ -38,10 +36,6 @@ public class MQTTConfiguration {
 
         MqttConnectOptions options = new MqttConnectOptions();
         options.setServerURIs(new String[] {"tcp://eu1.cloud.thethings.network:1883"});
-//        options.setUserName("lora-e5-v2@ttn");
-//        options.setCleanSession(true);
-//        options.setPassword("NNSXS.LDZSHSDYFMS4DDLOS7O2FGW7SMLRH6JR7KZRQOY.XEL2KADMTDK5RORHURE7MFNUK5DUBIV6KMQ3W2WR7SZN2R364PAA".toCharArray());
-//        factory.setConnectionOptions(options);
 
         options.setUserName("lora-e5-mini-cosmo@ttn");
         options.setCleanSession(true);
@@ -85,8 +79,8 @@ public class MQTTConfiguration {
 
                 final FlightData flightDataToDb = dataConverter.dataOf(String.valueOf(message));
 
-                System.out.println(flightDataToDb);
-                dataService.sendFrame(flightDataToDb);
+                log.info(flightDataToDb.toString());
+                dataService.handleRetrievedMessage(flightDataToDb);
             }
         };
     }

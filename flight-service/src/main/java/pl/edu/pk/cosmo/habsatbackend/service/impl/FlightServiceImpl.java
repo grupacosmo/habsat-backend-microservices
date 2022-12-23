@@ -13,6 +13,9 @@ import pl.edu.pk.cosmo.habsatbackend.repository.FlightRepository;
 import pl.edu.pk.cosmo.habsatbackend.service.FlightService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +28,16 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightResponse getFlightByDate(LocalDate date) throws NoFlightException {
-        return flightRepository.findFlightByDate(date)
-                .map(flightConverter::responeOf)
+
+        return flightRepository.findAll().stream()
+                .filter(flight -> {
+                    final LocalDateTime dateTime = flight.getDate();
+                    final LocalDateTime startOfDay = LocalDateTime.of(date, LocalTime.MIN);
+                    final LocalDateTime endOfDay = LocalDateTime.of(date, LocalTime.MAX);
+
+                    return dateTime.isBefore(endOfDay) && dateTime.isAfter(startOfDay);
+                }).findFirst()
+                .map(flightConverter::responseOf)
                 .orElseThrow(
                         () -> new NoFlightException("There is no filght with date: " + date.toString())
                 );
@@ -34,7 +45,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void createNewFlight(NewFlightRequest newFlightRequest) throws FlightAlreadyExistsException {
-        final LocalDate date = newFlightRequest.getDate();
+        final LocalDateTime date = newFlightRequest.getDate();
 
         if(flightRepository.existsByDate(date)) {
             throw new FlightAlreadyExistsException("There has already been flight at " + date.toString());
@@ -47,14 +58,14 @@ public class FlightServiceImpl implements FlightService {
     public List<FlightResponse> getFlightByStage(FlightStage flightStage) {
         return flightRepository.findFlightByFlightStage(flightStage)
                 .stream()
-                .map(flightConverter::responeOf)
+                .map(flightConverter::responseOf)
                 .collect(Collectors.toList());
     }
 
     @Override
     public FlightResponse getOngoing() {
         return flightRepository.findOngoing()
-                .map(flightConverter::responeOf)
+                .map(flightConverter::responseOf)
                 .orElse(null);
     }
 
@@ -62,7 +73,7 @@ public class FlightServiceImpl implements FlightService {
     public FlightResponse getNewestFlight() {
         List<FlightResponse> list = this.getFlightByStage(FlightStage.ONGOING);
 
-        if(list.size() < 0)
+        if(list.size() <= 0)
             return getFlightByStage(FlightStage.FINISHED)
                     .stream()
                     .min(Comparator.comparing(FlightResponse::getDate))

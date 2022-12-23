@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class FlightConverter {
     private final DataConverter dataConverter;
 
-    public FlightResponse responeOf(Flight flight) {
+    public FlightResponse responseOf(Flight flight) {
         return new FlightResponse()
                 .setDate(flight.getDate())
                 .setDescription(flight.getDescription())
@@ -25,7 +25,7 @@ public class FlightConverter {
                                 .stream()
                                 .map(dataConverter::responseOf)
                                 .collect(Collectors.toList())
-                );
+                ).setFlightStage(flight.getFlightStage());
 
     }
 

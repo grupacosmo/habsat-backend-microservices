@@ -63,20 +63,4 @@ public class DataController {
         dataService.deleteTestData();
     }
 
-//    @DeleteMapping("/~~deleteAll__webdev__access_265")
-//    public ResponseEntity<?> delete() {
-//        dataService.deleteAll();
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @DeleteMapping("/~~deleteAll__webdev__access_265/{id}")
-//    public ResponseEntity<?> deleteById(@PathVariable final Long id) {
-//        try {
-//            dataService.deleteById(id);
-//            return ResponseEntity.ok().build();
-//        } catch (NoDataException e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-//        }
-//    }
-
 }
